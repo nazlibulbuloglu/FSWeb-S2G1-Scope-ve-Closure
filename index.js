@@ -30,10 +30,20 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
+  skor1 ve skor2 arasındaki fark, skor1'in closure kullanması ve sadece skorArtirici fonksiyonu tarafından erişilebilir olmasıdır. 
+  skor2 ise global bir değişken kullanmaktadır.
   
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
+  skor1 bir closure kullanmaktadır. Bir fonksiyonun içinde tanımlanmış ve dışarıdan erişilemeyen değişkenlere 
+  sahip olan fonksiyonlara closure denir. skorArtirici fonksiyonu, 
+  skor değişkenini bir closure olarak kullandığı için skorGuncelle fonksiyonu, skor değişkenine erişebilir.
   
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
+  skor1, skor değişkenine sadece skorArtirici fonksiyonu tarafından erişilebileceği için daha güvenli bir yapıya sahiptir. 
+  Aynı değişkeni başka yerlerde değiştirmeye çalıştığınızda hata alırsınız. Bu nedenle, bir projede birden fazla yerde değişkeni 
+  kullanmanız gerekiyorsa ve her bir değişkene sadece belirli fonksiyonlar tarafından erişilebilecekse, skor1 tercih edilebilir. 
+  skor2, basit bir şekilde skor değişkenini takip etmek için kullanılabilir, 
+  ancak bir closure kullanmamaktadır, bu nedenle diğer fonksiyonlar tarafından değiştirilebilir.
 */
 
 // skor1 kodları
@@ -64,11 +74,11 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(){
+    return Math.floor(Math.random()*16)+10;
 }
 
-
+console.log(takimSkoru()); 
 
 
 /* Görev 3: macSonucu() 
@@ -86,11 +96,21 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(takimSkoru, cevrekSayisi){
+  let evSahibiSkor = 0;
+  let konukTakimSkor = 0;
+
+  for(let i = 1; i <= cevrekSayisi; i++){
+    let evSahibiCeyrekSkoru = takimSkoru();
+    let konukTakimCeyrekSkoru = takimSkoru();
+    evSahibiSkor += evSahibiCeyrekSkoru;
+    konukTakimSkor += konukTakimCeyrekSkoru;
+  }
+
+  return {"EvSahibi": evSahibiSkor, "KonukTakim": konukTakimSkor};
 }
 
-
+console.log(macSonucu(takimSkoru, 4));
 
 
 
@@ -109,10 +129,18 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
-
+function periyotSkoru(takimSkoru) {
+  const evSahibiSkoru = takimSkoru();
+  const konukTakimSkoru = takimSkoru();
+  
+  return {
+    "EvSahibi": evSahibiSkoru,
+    "KonukTakim": konukTakimSkoru
+  };
 }
+const sonuc = periyotSkoru(takimSkoru);
+console.log(sonuc); 
+
 
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
